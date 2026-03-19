@@ -26,10 +26,26 @@ type SysEmployee struct {
 	EmployeeAddress    string `json:"employeeAddress" gorm:"comment:员工地址"`
 	EmployeeBirthday   string `json:"employeeBirthday" gorm:"comment:员工生日"`
 	EmployeeGender     int    `json:"employeeGender" gorm:"type:tinyint;comment:员工性别（0=未知，1=男，2=女）"`
+	EmployeeGenderStr  string `json:"employeeGenderStr" gorm:"-"`
 	EmployeePosition   string `json:"employeePosition" gorm:"comment:员工职位"`
 	EmployeeDepartment string `json:"employeeDepartment" gorm:"comment:员工部门"`
 }
 
 func (SysEmployee) TableName() string {
 	return "sys_employee"
+}
+
+func (e *SysEmployee) FillGenderText() {
+	e.EmployeeGenderStr = GetEmployeeGenderText(e.EmployeeGender)
+}
+
+func GetEmployeeGenderText(gender int) string {
+	switch gender {
+	case GenderMale:
+		return "男"
+	case GenderFemale:
+		return "女"
+	default:
+		return "未知"
+	}
 }

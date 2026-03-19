@@ -45,6 +45,9 @@ func (employeeService *EmployeeService) UpdateEmployee(emp system.SysEmployee) (
 // GetEmployeeDetail 获取员工详情
 func (employeeService *EmployeeService) GetEmployeeDetail(id uint) (employee system.SysEmployee, err error) {
 	err = global.GVA_DB.First(&employee, "id = ?", id).Error
+	if err == nil {
+		employee.FillGenderText()
+	}
 	return employee, err
 }
 
@@ -58,6 +61,9 @@ func (employeeService *EmployeeService) GetEmployeeInfoList(info systemReq.SysEm
 	}
 	if err = db.Order("id desc").Limit(limit).Offset(offset).Find(&sysEmployees).Error; err != nil {
 		return
+	}
+	for i := range sysEmployees {
+		sysEmployees[i].FillGenderText()
 	}
 	return sysEmployees, total, nil
 }

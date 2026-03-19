@@ -55,9 +55,13 @@
         <el-table-column
           align="left"
           label="员工性别"
-          prop="employeeGender"
+          prop="employeeGenderStr"
           width="90"
-        />
+        >
+          <template #default="scope">
+            {{ getGenderText(scope.row) }}
+          </template>
+        </el-table-column>
         <el-table-column
           align="left"
           label="员工职位"
@@ -139,7 +143,7 @@
         <el-descriptions-item label="员工地址">{{ detailRow.employeeAddress || '-' }}</el-descriptions-item>
         <el-descriptions-item label="员工生日">{{ detailRow.employeeBirthday || '-' }}</el-descriptions-item>
         <el-descriptions-item label="员工性别">
-          {{ detailRow.employeeGender === 1 ? '男' : detailRow.employeeGender === 2 ? '女' : detailRow.employeeGender }}
+          {{ getGenderText(detailRow) }}
         </el-descriptions-item>
         <el-descriptions-item label="员工职位">{{ detailRow.employeePosition || '-' }}</el-descriptions-item>
         <el-descriptions-item label="员工部门">{{ detailRow.employeeDepartment || '-' }}</el-descriptions-item>
@@ -174,6 +178,15 @@ const editMode = ref('create') // create | edit
 
 const detailVisible = ref(false)
 const detailRow = ref(null)
+
+const getGenderText = (row) => {
+  if (!row) return '-'
+  if (row.employeeGenderStr) return row.employeeGenderStr
+  if (row.employeeGender === 1) return '男'
+  if (row.employeeGender === 2) return '女'
+  if (row.employeeGender === 0) return '未知'
+  return row.employeeGender ?? '-'
+}
 
 const openDrawer = () => {
   editMode.value = 'create'

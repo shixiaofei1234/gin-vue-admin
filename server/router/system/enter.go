@@ -1,3 +1,11 @@
+/*
+ * @Author: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
+ * @Date: 2026-03-19 14:47:55
+ * @LastEditors: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
+ * @LastEditTime: 2026-03-20 14:23:59
+ * @FilePath: \server\router\system\enter.go
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 package system
 
 import api "github.com/flipped-aurora/gin-vue-admin/server/api/v1"
@@ -12,6 +20,7 @@ type RouterGroup struct {
 	UserRouter
 	CasbinRouter
 	EmployeeRouter
+	TeamRouter
 	AutoCodeRouter
 	AuthorityRouter
 	DictionaryRouter
@@ -30,6 +39,7 @@ var (
 	autoCodeApi         = api.ApiGroupApp.SystemApiGroup.AutoCodeApi
 	authorityApi        = api.ApiGroupApp.SystemApiGroup.AuthorityApi
 	employeeApi         = api.ApiGroupApp.SystemApiGroup.EmployeeApi
+	teamApi             = api.ApiGroupApp.SystemApiGroup.TeamApi
 	apiRouterApi        = api.ApiGroupApp.SystemApiGroup.SystemApiApi
 	dictionaryApi       = api.ApiGroupApp.SystemApiGroup.DictionaryApi
 	authorityBtnApi     = api.ApiGroupApp.SystemApiGroup.AuthorityBtnApi

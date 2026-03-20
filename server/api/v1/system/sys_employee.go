@@ -2,7 +2,7 @@
  * @Author: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
  * @Date: 2026-03-17 10:06:23
  * @LastEditors: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
- * @LastEditTime: 2026-03-19 14:20:48
+ * @LastEditTime: 2026-03-19 16:12:04
  * @FilePath: \gin-vue-admin-main\server\api\v1\system\sys_employee.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -118,6 +118,38 @@ func (a *EmployeeApi) GetEmployeeDetail(c *gin.Context) {
 	}
 
 	response.OkWithDetailed(detail, "获取成功", c)
+}
+
+// DeleteEmployee
+// @Tags      Employee
+// @Summary   删除员工
+// @Security  ApiKeyAuth
+// @accept    application/json
+// @Produce   application/json
+// @Param     data  body      system.SysEmployee                                                true  "权限id, 权限名, 父角色id"
+// @Success   200   {object}   "删除员工"
+// @Router    /employee/deleteEmployee [delete]
+func (a *EmployeeApi) DeleteEmployee(c *gin.Context) {
+	var employee system.SysEmployee
+	var err error
+
+	if err = c.ShouldBindJSON(&employee); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	if err = utils.Verify(employee, utils.IdVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+
+	err = employeeService.DeleteEmployee(employee.ID)
+	if err != nil {
+		global.GVA_LOG.Error("删除失败!", zap.Error(err))
+		response.FailWithMessage("删除失败"+err.Error(), c)
+		return
+	}
+	response.OkWithMessage("删除成功", c)
 }
 
 // GetEmployeeList

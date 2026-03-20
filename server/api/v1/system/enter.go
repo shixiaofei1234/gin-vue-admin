@@ -52,4 +52,5 @@ var (
 	autoCodeHistoryService  = service.ServiceGroupApp.SystemServiceGroup.AutoCodeHistory
 	autoCodeTemplateService = service.ServiceGroupApp.SystemServiceGroup.AutoCodeTemplate
 	employeeService         = service.ServiceGroupApp.SystemServiceGroup.EmployeeService
+	teamService             = service.ServiceGroupApp.SystemServiceGroup.TeamService
 )

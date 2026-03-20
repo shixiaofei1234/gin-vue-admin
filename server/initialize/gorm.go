@@ -1,3 +1,11 @@
+/*
+ * @Author: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
+ * @Date: 2026-03-19 14:47:54
+ * @LastEditors: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
+ * @LastEditTime: 2026-03-20 14:28:48
+ * @FilePath: \server\initialize\gorm.go
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 package initialize
 
 import (
@@ -56,7 +64,7 @@ func RegisterTables() {
 		system.Condition{},
 		system.JoinTemplate{},
 		system.SysEmployee{},
-
+		system.SysTeam{},
 		example.ExaFile{},
 		example.ExaCustomer{},
 		example.ExaFileChunk{},

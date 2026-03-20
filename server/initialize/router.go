@@ -70,8 +70,6 @@ func Routers() *gin.Engine {
 		PublicGroup.GET("/health", func(c *gin.Context) {
 			c.JSON(http.StatusOK, "ok")
 		})
-		// 员工列表临时挂在公开组，便于排查 404（确认能访问后再改回仅 PrivateGroup，并配置 Casbin）
-		// systemRouter.InitEmployeeRouter(PublicGroup)
 	}
 	{
 		systemRouter.InitBaseRouter(PublicGroup) // 注册基础功能路由 不做鉴权
@@ -95,8 +93,8 @@ func Routers() *gin.Engine {
 		systemRouter.InitSysExportTemplateRouter(PrivateGroup)      // 导出模板
 		exampleRouter.InitCustomerRouter(PrivateGroup)              // 客户路由
 		exampleRouter.InitFileUploadAndDownloadRouter(PrivateGroup) // 文件上传下载功能路由
-		// 员工路由：当前仅在 PublicGroup 注册以便先排除 404；确认能访问后可在下方取消注释并删掉上面 Public 里的 InitEmployeeRouter，再在「API 管理」里配置 Casbin
-		systemRouter.InitEmployeeRouter(PrivateGroup)
+		systemRouter.InitEmployeeRouter(PrivateGroup) // 员工路由
+		systemRouter.InitTeamRouter(PrivateGroup) // 团队路由
 	}
 
 	//插件路由安装

@@ -158,7 +158,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { getEmployeeList, createEmployee, updateEmployee, getEmployeeDetail } from '@/api/employee'
+import { getEmployeeList, createEmployee, updateEmployee, getEmployeeDetail, deleteEmployee } from '@/api/employee'
 import EmployeeFormDrawer from './EmployeeFormDrawer.vue'
 
 defineOptions({
@@ -241,10 +241,17 @@ const handleDelete = (row) => {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(() => {
-    tableData.value = tableData.value.filter((x) => x.ID !== row.ID)
-    total.value = Math.max(0, total.value - 1)
-    ElMessage.success('删除成功（本地）')
+  }).then(async() => {
+    const res = await deleteEmployee({ ID: row.ID })
+    if (res.code !== 0) {
+      ElMessage.error(res.msg || '删除失败')
+      return
+    }
+    ElMessage.success('删除成功')
+    if (tableData.value.length === 1 && page.value > 1) {
+      page.value -= 1
+    }
+    fetchEmployeeList()
   })
 }
 

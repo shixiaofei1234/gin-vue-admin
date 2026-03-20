@@ -2,7 +2,7 @@
  * @Author: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
  * @Date: 2026-03-17 14:24:24
  * @LastEditors: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
- * @LastEditTime: 2026-03-19 14:23:17
+ * @LastEditTime: 2026-03-19 16:12:46
  * @FilePath: \gin-vue-admin-main\server\service\system\sys_employee.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -36,7 +36,7 @@ func (employeeService *EmployeeService) UpdateEmployee(emp system.SysEmployee) (
 	err = global.GVA_DB.Where("id = ?", emp.ID).First(&employeeBox).Error
 	if err != nil {
 		global.GVA_LOG.Debug(err.Error())
-		return system.SysEmployee{}, errors.New("查询角色数据失败")
+		return system.SysEmployee{}, errors.New("查询员工数据失败")
 	}
 	err = global.GVA_DB.Model(&employeeBox).Updates(&emp).Error
 	return employeeBox, err
@@ -49,6 +49,16 @@ func (employeeService *EmployeeService) GetEmployeeDetail(id uint) (employee sys
 		employee.FillGenderText()
 	}
 	return employee, err
+}
+
+func (employeeService *EmployeeService) DeleteEmployee(id uint) (err error) {
+	err = global.GVA_DB.First(&system.SysEmployee{}, "id = ?", id).Error
+	if err != nil {
+		global.GVA_LOG.Debug(err.Error())
+		return errors.New("查询员工数据失败")
+	}
+	err = global.GVA_DB.Delete(&system.SysEmployee{}, "id = ?", id).Error
+	return err
 }
 
 func (employeeService *EmployeeService) GetEmployeeInfoList(info systemReq.SysEmployeeSearch) (list interface{}, total int64, err error) {

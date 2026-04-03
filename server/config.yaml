@@ -5,6 +5,17 @@ aliyun-oss:
     bucket-name: yourBucketName
     bucket-url: yourBucketUrl
     base-path: yourBasePath
+ai:
+    api-key: "sk-3ead0789440546b892d732a18225a25f"
+    base-url: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
+    model: qwen3.5-plus
+    timeout-seconds: 90
+    rag-enabled: true
+    knowledge-dir: resource/ai_knowledge
+    embedding-model: text-embedding-v3
+    rag-top-k: 4
+    rag-chunk-max-runes: 800
+    rag-inject-max-runes: 2500
 autocode:
     web: web/src
     root: D:\project\gin-vue-admin-main

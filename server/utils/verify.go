@@ -13,8 +13,11 @@ var (
 	AutoPackageVerify      = Rules{"PackageName": {NotEmpty()}}
 	AuthorityVerify        = Rules{"AuthorityId": {NotEmpty()}, "AuthorityName": {NotEmpty()}}
 	EmployeeVerify         = Rules{"EmployeeName": {NotEmpty()}, "EmployeePhone": {NotEmpty()}, "EmployeeEmail": {NotEmpty()}}
+	TeamVerify             = Rules{"TeamName": {NotEmpty()}}
 	AuthorityIdVerify      = Rules{"AuthorityId": {NotEmpty()}}
 	OldAuthorityVerify     = Rules{"OldAuthorityId": {NotEmpty()}}
 	ChangePasswordVerify   = Rules{"Password": {NotEmpty()}, "NewPassword": {NotEmpty()}}
 	SetUserAuthorityVerify = Rules{"AuthorityId": {NotEmpty()}}
+	SetAdminVerify         = Rules{"ID": {NotEmpty()}, "AdminID": {NotEmpty()}}
+	TeamEmployeeListVerify = Rules{"TeamID": {NotEmpty()}, "Page": {NotEmpty()}, "PageSize": {NotEmpty()}}
 )

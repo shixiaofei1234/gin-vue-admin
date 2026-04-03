@@ -65,6 +65,7 @@ func RegisterTables() {
 		system.JoinTemplate{},
 		system.SysEmployee{},
 		system.SysTeam{},
+		system.SysProductCategory{},
 		example.ExaFile{},
 		example.ExaCustomer{},
 		example.ExaFileChunk{},

@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
+	commonReq "github.com/flipped-aurora/gin-vue-admin/server/model/common/request"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
 	systemReq "github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
 	"github.com/stretchr/testify/assert"
@@ -94,7 +95,7 @@ func TestEmployeeService_UpdateEmployee_Success(t *testing.T) {
 
 	// 准备更新数据
 	updateEmp := system.SysEmployee{
-		ID:               emp.ID,
+		GVA_MODEL:        global.GVA_MODEL{ID: emp.ID},
 		EmployeeName:     "更新姓名",
 		EmployeePhone:    "13900139000",
 		EmployeeEmail:    "updated@example.com",
@@ -115,7 +116,7 @@ func TestEmployeeService_UpdateEmployee_Success(t *testing.T) {
 func TestEmployeeService_UpdateEmployee_NotFound(t *testing.T) {
 	// 准备不存在的员工数据
 	emp := system.SysEmployee{
-		ID:            99999,
+		GVA_MODEL:     global.GVA_MODEL{ID: 99999},
 		EmployeeName:  "不存在的员工",
 		EmployeePhone: "13800138000",
 	}
@@ -225,7 +226,7 @@ func TestEmployeeService_GetEmployeeInfoList_Success(t *testing.T) {
 
 	// 准备分页参数
 	pageInfo := systemReq.SysEmployeeSearch{
-		PageInfo: systemReq.PageInfo{
+		PageInfo: commonReq.PageInfo{
 			Page:     1,
 			PageSize: 10,
 		},
@@ -261,7 +262,7 @@ func TestEmployeeService_GetEmployeeInfoList_Pagination(t *testing.T) {
 
 	// 准备分页参数 - 每页5条
 	pageInfo := systemReq.SysEmployeeSearch{
-		PageInfo: systemReq.PageInfo{
+		PageInfo: commonReq.PageInfo{
 			Page:     2,
 			PageSize: 5,
 		},
@@ -280,7 +281,7 @@ func TestEmployeeService_GetEmployeeInfoList_Pagination(t *testing.T) {
 func TestEmployeeService_GetEmployeeInfoList_Empty(t *testing.T) {
 	// 不创建任何员工
 	pageInfo := systemReq.SysEmployeeSearch{
-		PageInfo: systemReq.PageInfo{
+		PageInfo: commonReq.PageInfo{
 			Page:     1,
 			PageSize: 10,
 		},
@@ -308,7 +309,7 @@ func TestEmployeeService_GetEmployeeInfoList_PageSize_0(t *testing.T) {
 
 	// PageSize 为 0 的情况
 	pageInfo := systemReq.SysEmployeeSearch{
-		PageInfo: systemReq.PageInfo{
+		PageInfo: commonReq.PageInfo{
 			Page:     1,
 			PageSize: 0,
 		},
@@ -337,7 +338,7 @@ func TestEmployeeService_GetEmployeeInfoList_Page_0(t *testing.T) {
 
 	// Page 为 0 的情况
 	pageInfo := systemReq.SysEmployeeSearch{
-		PageInfo: systemReq.PageInfo{
+		PageInfo: commonReq.PageInfo{
 			Page:     0,
 			PageSize: 10,
 		},
@@ -365,7 +366,7 @@ func TestEmployeeService_GetEmployeeInfoList_LargePageSize(t *testing.T) {
 
 	// PageSize 超过实际数量
 	pageInfo := systemReq.SysEmployeeSearch{
-		PageInfo: systemReq.PageInfo{
+		PageInfo: commonReq.PageInfo{
 			Page:     1,
 			PageSize: 100,
 		},

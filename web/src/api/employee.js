@@ -52,3 +52,12 @@ export const deleteEmployee = (data) => {
     data
   })
 }
+
+// 团队下拉（GET，分页参数 page、pageSize，可选 teamName）
+export const getTeamList = (params) => {
+  return service({
+    url: '/team/getTeamList',
+    method: 'get',
+    params
+  })
+}

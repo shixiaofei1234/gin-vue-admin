@@ -83,6 +83,7 @@ func Routers() *gin.Engine {
 		systemRouter.InitMenuRouter(PrivateGroup)                   // 注册menu路由
 		systemRouter.InitSystemRouter(PrivateGroup)                 // system相关路由
 		systemRouter.InitCasbinRouter(PrivateGroup)                 // 权限相关路由
+		systemRouter.InitAIChatRouter(PublicGroup)                  // AI 对话路由（仅JWT，不走Casbin）
 		systemRouter.InitAutoCodeRouter(PrivateGroup, PublicGroup)  // 创建自动化代码
 		systemRouter.InitAuthorityRouter(PrivateGroup)              // 注册角色路由
 		systemRouter.InitSysDictionaryRouter(PrivateGroup)          // 字典管理
@@ -93,8 +94,9 @@ func Routers() *gin.Engine {
 		systemRouter.InitSysExportTemplateRouter(PrivateGroup)      // 导出模板
 		exampleRouter.InitCustomerRouter(PrivateGroup)              // 客户路由
 		exampleRouter.InitFileUploadAndDownloadRouter(PrivateGroup) // 文件上传下载功能路由
-		systemRouter.InitEmployeeRouter(PrivateGroup) // 员工路由
-		systemRouter.InitTeamRouter(PrivateGroup) // 团队路由
+		systemRouter.InitEmployeeRouter(PrivateGroup)               // 员工路由
+		systemRouter.InitTeamRouter(PrivateGroup)                   // 团队路由
+		systemRouter.InitProductCategoryRouter(PrivateGroup)        // 产品分类路由
 	}
 
 	//插件路由安装

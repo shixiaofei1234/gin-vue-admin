@@ -2,7 +2,7 @@
  * @Author: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
  * @Date: 2026-03-17 10:06:23
  * @LastEditors: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
- * @LastEditTime: 2026-03-20 17:39:27
+ * @LastEditTime: 2026-03-30 14:01:02
  * @FilePath: \gin-vue-admin-main\server\api\v1\system\sys_employee.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -39,7 +39,7 @@ func (a *TeamApi) CreateTeam(c *gin.Context) {
 		return
 	}
 
-	if err = utils.Verify(team, utils.EmployeeVerify); err != nil {
+	if err = utils.Verify(team, utils.TeamVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
@@ -50,6 +50,66 @@ func (a *TeamApi) CreateTeam(c *gin.Context) {
 		return
 	}
 	response.OkWithMessage("创建成功", c)
+}
+
+func (a *TeamApi) SwitchTeamStatus(c *gin.Context) {
+	var team system.SysTeam
+	if err := c.ShouldBindJSON(&team); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if err := utils.Verify(team, utils.IdVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if err := teamService.SwitchTeamStatus(team.ID, team.Status); err != nil {
+		global.GVA_LOG.Error("切换失败!", zap.Error(err))
+		response.FailWithMessage("切换失败"+err.Error(), c)
+		return
+	}
+	response.OkWithMessage("切换成功", c)
+}
+
+func (a *TeamApi) SetAdmin(c *gin.Context) {
+	var team system.SysTeam
+	if err := c.ShouldBindJSON(&team); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if err := utils.Verify(team, utils.SetAdminVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if err := teamService.SetAdmin(team.ID, team.AdminID); err != nil {
+		global.GVA_LOG.Error("设置失败!", zap.Error(err))
+		response.FailWithMessage("设置失败"+err.Error(), c)
+		return
+	}
+	response.OkWithMessage("设置成功", c)
+}
+
+func (a *TeamApi) GetTeamEmployeeList(c *gin.Context) {
+	var q systemReq.SysTeamEmployeeSearch
+	if err := c.ShouldBindQuery(&q); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	if err := utils.Verify(q, utils.TeamEmployeeListVerify); err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	list, total, err := teamService.GetTeamEmployeeList(q)
+	if err != nil {
+		global.GVA_LOG.Error("获取失败!", zap.Error(err))
+		response.FailWithMessage("获取失败", c)
+		return
+	}
+	response.OkWithDetailed(response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     q.Page,
+		PageSize: q.PageSize,
+	}, "获取成功", c)
 }
 
 // GetEmployeeList
@@ -63,12 +123,12 @@ func (a *TeamApi) CreateTeam(c *gin.Context) {
 // @Router    /employee/GetEmployeeList [get]
 
 func (a *TeamApi) GetTeamList(c *gin.Context) {
-	var pageInfo systemReq.SysEmployeeSearch
+	var pageInfo systemReq.SysTeamSearch
 	if err := c.ShouldBindQuery(&pageInfo); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	list, total, err := employeeService.GetEmployeeInfoList(pageInfo)
+	list, total, err := teamService.GetTeamList(pageInfo)
 	if err != nil {
 		global.GVA_LOG.Error("获取失败!", zap.Error(err))
 		response.FailWithMessage("获取失败", c)

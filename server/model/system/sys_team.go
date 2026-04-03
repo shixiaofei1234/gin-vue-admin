@@ -2,7 +2,7 @@
  * @Author: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
  * @Date: 2026-03-17 09:48:50
  * @LastEditors: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
- * @LastEditTime: 2026-03-20 16:24:22
+ * @LastEditTime: 2026-03-23 15:01:06
  * @FilePath: \gin-vue-admin-main\server\model\system\sys_employee.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -22,7 +22,8 @@ type SysTeam struct {
 	// 后续如果你要持久化并返回员工列表，可再补齐对应的存储字段和填充逻辑。
 	EmployeeList []SysEmployee `json:"employeeList" gorm:"-"`
 	AdminName    string        `json:"adminName" gorm:"comment:管理员名称"`
-	Status       *int          `json:"status" gorm:"comment:团队状态"`
+	Status       bool          `json:"status" gorm:"comment:团队状态"`
+	AdminID      uint          `json:"adminID" gorm:"comment:管理员ID"`
 }
 
 func (SysTeam) TableName() string {

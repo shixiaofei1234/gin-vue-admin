@@ -10,6 +10,7 @@
       class="absolute inset-0 pointer-events-none"
       :content="userStore.userInfo.nickName"
     />
+    <AIFloatChat />
     <gva-header />
     <div class="flex flex-row w-full gva-container pt-16 box-border h-full">
         <gva-aside v-if="config.side_mode === 'normal' || (device === 'mobile' && config.side_mode == 'head' ) || (device === 'mobile' && config.side_mode == 'combination' )" />
@@ -45,6 +46,7 @@ import GvaHeader from "@/view/layout/header/index.vue";
 import useResponsive from "@/hooks/responsive";
 import GvaTabs from "./tabs/index.vue";
 import BottomInfo from "@/components/bottomInfo/bottomInfo.vue";
+import AIFloatChat from "@/components/aiFloatChat/index.vue";
 import { emitter } from "@/utils/bus.js";
 import { ref, onMounted, nextTick, reactive, watchEffect } from "vue";
 import { useRouter, useRoute } from "vue-router";

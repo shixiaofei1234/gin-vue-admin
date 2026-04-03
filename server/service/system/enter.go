@@ -21,8 +21,10 @@ type ServiceGroup struct {
 	DictionaryService
 	SystemConfigService
 	OperationRecordService
+	AIChatService
 	EmployeeService
 	TeamService
+	ProductCategoryService
 	DictionaryDetailService
 	AuthorityBtnService
 	SysExportTemplateService

@@ -29,6 +29,7 @@ type SysEmployee struct {
 	EmployeeGenderStr  string `json:"employeeGenderStr" gorm:"-"`
 	EmployeePosition   string `json:"employeePosition" gorm:"comment:员工职位"`
 	EmployeeDepartment string `json:"employeeDepartment" gorm:"comment:员工部门"`
+	TeamID             uint   `json:"teamID" gorm:"comment:所在团队ID"`
 }
 
 func (SysEmployee) TableName() string {

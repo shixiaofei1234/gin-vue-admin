@@ -101,12 +101,37 @@
           autocomplete="off"
         />
       </el-form-item>
+      <el-form-item
+        label="所属团队"
+        prop="teamID"
+      >
+        <el-select
+          v-model="form.teamID"
+          filterable
+          remote
+          reserve-keyword
+          clearable
+          placeholder="请输入团队名称搜索"
+          :remote-method="handleTeamSearch"
+          :loading="teamLoading"
+          @visible-change="handleTeamDropdownVisibleChange"
+          @popup-scroll="handleTeamPopupScroll"
+        >
+          <el-option
+            v-for="item in teamOptions"
+            :key="item.ID"
+            :label="item.teamName"
+            :value="item.ID"
+          />
+        </el-select>
+      </el-form-item>
     </el-form>
   </el-drawer>
 </template>
 
 <script setup>
 import { ref, watch } from 'vue'
+import { getTeamList } from '@/api/employee'
 
 const props = defineProps({
   modelValue: {
@@ -137,6 +162,7 @@ watch(
     visibleLocal.value = val
     if (val) {
       resetForm()
+      initTeamOptions()
       applyInitialValue()
     }
   }
@@ -150,6 +176,12 @@ watch(
 )
 
 const formRef = ref(null)
+const TEAM_PAGE_SIZE = 10
+const teamOptions = ref([])
+const teamPage = ref(1)
+const teamTotal = ref(0)
+const teamKeyword = ref('')
+const teamLoading = ref(false)
 const form = ref({
   employeeName: '',
   employeePhone: '',
@@ -158,7 +190,8 @@ const form = ref({
   employeeBirthday: '',
   employeeGender: 1,
   employeePosition: '',
-  employeeDepartment: ''
+  employeeDepartment: '',
+  teamID: undefined
 })
 
 const rules = {
@@ -184,7 +217,75 @@ const rules = {
   ],
   employeeGender: [
     { required: true, message: '请选择性别', trigger: 'change' }
+  ],
+  teamID: [
+    { required: true, message: '请选择所属团队', trigger: 'change' }
   ]
+}
+
+const resetTeamState = () => {
+  teamOptions.value = []
+  teamPage.value = 1
+  teamTotal.value = 0
+  teamKeyword.value = ''
+}
+
+const mergeTeamOptions = (list) => {
+  const map = new Map()
+  teamOptions.value.forEach((item) => map.set(item.ID, item))
+  list.forEach((item) => map.set(item.ID, item))
+  teamOptions.value = Array.from(map.values())
+}
+
+const fetchTeamOptions = async({ reset = false } = {}) => {
+  if (teamLoading.value) return
+  if (!reset && teamOptions.value.length >= teamTotal.value && teamTotal.value > 0) return
+  teamLoading.value = true
+  try {
+    const res = await getTeamList({
+      page: teamPage.value,
+      pageSize: TEAM_PAGE_SIZE,
+      teamName: teamKeyword.value
+    })
+    if (res?.code !== 0) return
+    const list = res?.data?.list ?? []
+    teamTotal.value = res?.data?.total ?? 0
+    if (reset) {
+      teamOptions.value = list
+    } else {
+      mergeTeamOptions(list)
+    }
+    teamPage.value += 1
+  } finally {
+    teamLoading.value = false
+  }
+}
+
+const initTeamOptions = () => {
+  resetTeamState()
+  fetchTeamOptions({ reset: true })
+}
+
+const handleTeamSearch = (query) => {
+  teamKeyword.value = String(query || '').trim()
+  teamPage.value = 1
+  teamTotal.value = 0
+  fetchTeamOptions({ reset: true })
+}
+
+const handleTeamDropdownVisibleChange = (visible) => {
+  if (!visible) return
+  if (teamOptions.value.length > 0) return
+  initTeamOptions()
+}
+
+const handleTeamPopupScroll = (e) => {
+  const target = e?.target
+  if (!target || teamLoading.value) return
+  const distance = target.scrollHeight - target.scrollTop - target.clientHeight
+  if (distance <= 10) {
+    fetchTeamOptions()
+  }
 }
 
 const resetForm = () => {
@@ -196,7 +297,8 @@ const resetForm = () => {
     employeeBirthday: '',
     employeeGender: 1,
     employeePosition: '',
-    employeeDepartment: ''
+    employeeDepartment: '',
+    teamID: undefined
   }
 }
 
@@ -211,7 +313,14 @@ const applyInitialValue = () => {
     employeeBirthday: v.employeeBirthday ?? '',
     employeeGender: v.employeeGender ?? 1,
     employeePosition: v.employeePosition ?? '',
-    employeeDepartment: v.employeeDepartment ?? ''
+    employeeDepartment: v.employeeDepartment ?? '',
+    teamID: v.teamID ?? undefined
+  }
+  if (v.teamID && !teamOptions.value.some((item) => item.ID === v.teamID)) {
+    teamOptions.value.unshift({
+      ID: v.teamID,
+      teamName: v.teamName || `团队#${v.teamID}`
+    })
   }
 }
 

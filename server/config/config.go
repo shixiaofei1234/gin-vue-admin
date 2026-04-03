@@ -28,6 +28,7 @@ type Server struct {
 	CloudflareR2 CloudflareR2 `mapstructure:"cloudflare-r2" json:"cloudflare-r2" yaml:"cloudflare-r2"`
 
 	Excel Excel `mapstructure:"excel" json:"excel" yaml:"excel"`
+	AI    AI    `mapstructure:"ai" json:"ai" yaml:"ai"`
 
 	DiskList []DiskList `mapstructure:"disk-list" json:"disk-list" yaml:"disk-list"`
 

@@ -51,6 +51,9 @@ func (e *ensureTables) MigrateTable(ctx context.Context) (context.Context, error
 		sysModel.SysExportTemplate{},
 		sysModel.Condition{},
 		sysModel.JoinTemplate{},
+		sysModel.SysEmployee{},
+		sysModel.SysTeam{},
+		sysModel.SysProductCategory{},
 
 		adapter.CasbinRule{},
 
@@ -89,6 +92,9 @@ func (e *ensureTables) TableCreated(ctx context.Context) bool {
 		sysModel.SysExportTemplate{},
 		sysModel.Condition{},
 		sysModel.JoinTemplate{},
+		sysModel.SysEmployee{},
+		sysModel.SysTeam{},
+		sysModel.SysProductCategory{},
 
 		adapter.CasbinRule{},
 

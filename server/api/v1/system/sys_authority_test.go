@@ -7,12 +7,17 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/gofrs/uuid/v5"
+
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/system"
 	systemReq "github.com/flipped-aurora/gin-vue-admin/server/model/system/request"
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
+
+// 测试中注入 context 的固定 UUID（合法 RFC4122 字符串）
+var testClaimsUUID = uuid.Must(uuid.FromString("11111111-1111-1111-1111-111111111111"))
 
 func init() {
 	global.GVA_CONFIG.System.UseStrictAuth = false
@@ -39,8 +44,10 @@ func TestAuthorityApi_SetDataAuthority_Success(t *testing.T) {
 
 	// 设置用户权限ID到 context
 	claims := &systemReq.CustomClaims{
-		AuthorityId: 888,
-		UUID:        "test-uuid",
+		BaseClaims: systemReq.BaseClaims{
+			AuthorityId: 888,
+			UUID:        testClaimsUUID,
+		},
 	}
 	c.Set("claims", claims)
 
@@ -71,8 +78,10 @@ func TestAuthorityApi_SetDataAuthority_JSONBindError(t *testing.T) {
 
 	// 设置用户权限ID到 context
 	claims := &systemReq.CustomClaims{
-		AuthorityId: 888,
-		UUID:        "test-uuid",
+		BaseClaims: systemReq.BaseClaims{
+			AuthorityId: 888,
+			UUID:        testClaimsUUID,
+		},
 	}
 	c.Set("claims", claims)
 
@@ -110,8 +119,10 @@ func TestAuthorityApi_SetDataAuthority_VerifyError_EmptyAuthorityId(t *testing.T
 
 	// 设置用户权限ID到 context
 	claims := &systemReq.CustomClaims{
-		AuthorityId: 888,
-		UUID:        "test-uuid",
+		BaseClaims: systemReq.BaseClaims{
+			AuthorityId: 888,
+			UUID:        testClaimsUUID,
+		},
 	}
 	c.Set("claims", claims)
 
@@ -149,8 +160,10 @@ func TestAuthorityApi_SetDataAuthority_ServiceError_InvalidAuthority(t *testing.
 
 	// 设置用户权限ID到 context
 	claims := &systemReq.CustomClaims{
-		AuthorityId: 888,
-		UUID:        "test-uuid",
+		BaseClaims: systemReq.BaseClaims{
+			AuthorityId: 888,
+			UUID:        testClaimsUUID,
+		},
 	}
 	c.Set("claims", claims)
 
@@ -185,8 +198,10 @@ func TestAuthorityApi_SetDataAuthority_VerifyError_ZeroAuthorityId(t *testing.T)
 
 	// 设置用户权限ID到 context
 	claims := &systemReq.CustomClaims{
-		AuthorityId: 888,
-		UUID:        "test-uuid",
+		BaseClaims: systemReq.BaseClaims{
+			AuthorityId: 888,
+			UUID:        testClaimsUUID,
+		},
 	}
 	c.Set("claims", claims)
 
@@ -259,8 +274,10 @@ func TestAuthorityApi_SetDataAuthority_MultipleDataAuthorities(t *testing.T) {
 
 	// 设置用户权限ID到 context
 	claims := &systemReq.CustomClaims{
-		AuthorityId: 888,
-		UUID:        "test-uuid",
+		BaseClaims: systemReq.BaseClaims{
+			AuthorityId: 888,
+			UUID:        testClaimsUUID,
+		},
 	}
 	c.Set("claims", claims)
 
@@ -298,8 +315,10 @@ func TestAuthorityApi_SetDataAuthority_EmptyDataAuthorities(t *testing.T) {
 
 	// 设置用户权限ID到 context
 	claims := &systemReq.CustomClaims{
-		AuthorityId: 888,
-		UUID:        "test-uuid",
+		BaseClaims: systemReq.BaseClaims{
+			AuthorityId: 888,
+			UUID:        testClaimsUUID,
+		},
 	}
 	c.Set("claims", claims)
 
@@ -336,8 +355,10 @@ func TestAuthorityApi_SetDataAuthority_InvalidContentType(t *testing.T) {
 
 	// 设置用户权限ID到 context
 	claims := &systemReq.CustomClaims{
-		AuthorityId: 888,
-		UUID:        "test-uuid",
+		BaseClaims: systemReq.BaseClaims{
+			AuthorityId: 888,
+			UUID:        testClaimsUUID,
+		},
 	}
 	c.Set("claims", claims)
 
@@ -375,8 +396,10 @@ func TestAuthorityApi_SetDataAuthority_MaxAuthorityId(t *testing.T) {
 
 	// 设置用户权限ID到 context
 	claims := &systemReq.CustomClaims{
-		AuthorityId: maxUint,
-		UUID:        "test-uuid",
+		BaseClaims: systemReq.BaseClaims{
+			AuthorityId: maxUint,
+			UUID:        testClaimsUUID,
+		},
 	}
 	c.Set("claims", claims)
 
@@ -414,8 +437,10 @@ func TestAuthorityApi_SetDataAuthority_MinAuthorityId(t *testing.T) {
 
 	// 设置用户权限ID到 context
 	claims := &systemReq.CustomClaims{
-		AuthorityId: 1,
-		UUID:        "test-uuid",
+		BaseClaims: systemReq.BaseClaims{
+			AuthorityId: 1,
+			UUID:        testClaimsUUID,
+		},
 	}
 	c.Set("claims", claims)
 

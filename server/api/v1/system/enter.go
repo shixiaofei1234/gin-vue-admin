@@ -2,7 +2,7 @@
  * @Author: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
  * @Date: 2026-03-05 17:40:15
  * @LastEditors: shixiaofei1234 31613391+shixiaofei1234@users.noreply.github.com
- * @LastEditTime: 2026-03-17 14:42:21
+ * @LastEditTime: 2026-04-01 10:20:20
  * @FilePath: \gin-vue-admin-main\server\api\v1\system\enter.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -19,7 +19,10 @@ type ApiGroup struct {
 	AutoCodeApi
 	SystemApiApi
 	AuthorityApi
+	AIChatApi
 	EmployeeApi
+	TeamApi
+	ProductCategoryApi
 	DictionaryApi
 	AuthorityMenuApi
 	OperationRecordApi
@@ -41,6 +44,7 @@ var (
 	casbinService           = service.ServiceGroupApp.SystemServiceGroup.CasbinService
 	baseMenuService         = service.ServiceGroupApp.SystemServiceGroup.BaseMenuService
 	authorityService        = service.ServiceGroupApp.SystemServiceGroup.AuthorityService
+	aiChatService           = service.ServiceGroupApp.SystemServiceGroup.AIChatService
 	dictionaryService       = service.ServiceGroupApp.SystemServiceGroup.DictionaryService
 	authorityBtnService     = service.ServiceGroupApp.SystemServiceGroup.AuthorityBtnService
 	systemConfigService     = service.ServiceGroupApp.SystemServiceGroup.SystemConfigService
@@ -53,4 +57,5 @@ var (
 	autoCodeTemplateService = service.ServiceGroupApp.SystemServiceGroup.AutoCodeTemplate
 	employeeService         = service.ServiceGroupApp.SystemServiceGroup.EmployeeService
 	teamService             = service.ServiceGroupApp.SystemServiceGroup.TeamService
+	productCategoryService  = service.ServiceGroupApp.SystemServiceGroup.ProductCategoryService
 )

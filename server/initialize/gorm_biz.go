@@ -2,7 +2,8 @@ package initialize
 
 import (
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
-	"github.com/flipped-aurora/gin-vue-admin/server/model/example"
+	// keep example model init/registration side-effects for AutoMigrate in other parts
+	_ "github.com/flipped-aurora/gin-vue-admin/server/model/example"
 )
 
 func bizModel() error {
